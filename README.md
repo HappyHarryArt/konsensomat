@@ -57,9 +57,10 @@ jetzige Stand angemessen.
 
 ## Härtung für den Vereinseinsatz (27.08.2026)
 
-- **Zugangscodes**: 8 Stellen aus einem Alphabet ohne verwechselbare Zeichen
-  (O/0, I/1, B/8 fehlen), über eine Billion Möglichkeiten. Bindestrich und
-  Groß/Klein sind beim Eintippen egal.
+- **Zugangscodes**: 8 Stellen aus einem Alphabet mit 32 Zeichen ohne
+  Verwechslungspaare (von O/0, I/1 und B/8 steht höchstens ein Zeichen drin),
+  2^40 = über eine Billion Möglichkeiten. Bindestrich und Groß/Klein sind beim
+  Eintippen egal, ein O statt 0 oder B statt 8 wird stillschweigend geheilt.
 - **Bremse gegen Durchprobieren**: nach 12 falschen Codes sperrt die Abstimmung
   die Eingabe, nur der Wahlleiter kann sie wieder freigeben. Vorher war ein
   Code rechnerisch in Stunden zu erraten, jetzt nicht mehr.
@@ -74,7 +75,9 @@ jetzige Stand angemessen.
   Alarm selbst weg (Datensparsamkeit).
 - **Sicherheitsköpfe**: strikte Content-Security-Policy, kein Einbetten in
   fremde Seiten (frame-ancestors 'none'), kein Referrer, kein Caching.
-- **Nur eine Adresse**: die automatische workers.dev-Adresse ist abgeschaltet.
+- **Nur eine Adresse**: in der Referenz-Installation ist die automatische
+  workers.dev-Adresse abgeschaltet (der Standard dieses Repos lässt sie an,
+  siehe „Selbst betreiben“).
 
 Grenzen, offen benannt: der Betreiber des Cloudflare-Kontos kann den
 Speicherinhalt einsehen (bei Optionen: Zwischenstände). Wer dem Wahlleiter

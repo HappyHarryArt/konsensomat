@@ -11,7 +11,9 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
-    "redact_query_string": false,
+    // Query-Strings nicht mitloggen: die QR-Links tragen den Zugangscode
+    // als ?c=..., der sonst im Klartext in den Workers-Logs landete.
+    "redact_query_string": true,
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,
