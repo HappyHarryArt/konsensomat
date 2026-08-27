@@ -914,11 +914,11 @@ function abstimmungsseite(id, s, opt = {}) {
     ) {
       inhalt += `<div class="don-gruss">
         <img src="${DON_FOTO}" alt="Der Don">
-        <div><b>Dreimal Ja. Abgemacht.</b><br>
+        <div><b style="color:var(--rot)">Dreimal Ja. Abgemacht.</b><br>
           Dann gehört der Quellcode jetzt dir: schau hinein, bau nach, mach ihn
           besser. Und wenn dir etwas auffällt, sag es mir.<br>
           <a href="https://github.com/HappyHarryArt/konsensomat">github.com/HappyHarryArt/konsensomat</a><br>
-          Dein Don</div>
+          Der Don</div>
       </div>`;
     }
     // Demo: sonst saesse die Probe-Abstimmung nach der vollen Runde fest —
