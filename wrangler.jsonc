@@ -1,0 +1,43 @@
+{
+  "name": "konsensomat",
+  "main": "src/worker.js",
+  // Keine offene workers.dev-Adresse: sie waere eine zweite Tuer, an der jeder
+  // Schutz auf der eigenen Domain vorbeigeht. Entwickelt wird lokal
+  // (wrangler dev), oeffentlich ist nur konsensomat.happyharry.art.
+  "workers_dev": false,
+  "preview_urls": false,
+  "compatibility_date": "2026-04-26",
+  "routes": [
+    {
+      "pattern": "konsensomat.happyharry.art",
+      "zone_name": "happyharry.art",
+      "custom_domain": true,
+      "enabled": true,
+      "previews_enabled": false
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "redact_query_string": false,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "ABSTIMMUNG", "class_name": "Abstimmung" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Abstimmung"] }
+  ]
+}
