@@ -691,9 +691,9 @@ function infoseite(w) {
     }
     <div class="hinweis">Beim Ausprobieren sind Frage und Antworten vorgegeben:
       <b>„Willst du den Quellcode?"</b>, Ja oder Nein, drei Teilnehmer je Runde.
-      Deine Antwort fließt zusätzlich anonym in eine Strichliste ein. Und wer
-      dreimal Ja sagt, bekommt den Quellcode tatsächlich: der Link erscheint
-      mit dem Ergebnis.</div>`;
+      Deine Antwort fließt zusätzlich anonym in eine Strichliste ein. Und sagt
+      deine Runde mehrheitlich Ja, bekommst du den Quellcode tatsächlich: der
+      Link erscheint mit dem Ergebnis.</div>`;
 
   const skript = `<script>
     // Mini-RSVP: die Kurzfassung der Idee, vorgeführt statt erklärt.
@@ -903,15 +903,12 @@ function abstimmungsseite(id, s, opt = {}) {
         .join('')}
         <p class="stand">${e.gueltige} gültige Stimmen von ${s.abgegeben} abgegebenen</p></div>`;
     }
-    // Dreimal Ja auf die Frage nach dem Quellcode: der Don haelt Wort.
-    if (
-      s.demo &&
-      e.zaehlung &&
-      e.zaehlung.some((z) => z.text === 'Ja' && z.stimmen >= s.ziel)
-    ) {
+    // Sagt die Runde Ja zur Quellcode-Frage (mehrheitlich reicht), haelt der
+    // Don Wort.
+    if (s.demo && e.erreicht && e.wert === 'Ja') {
       inhalt += `<div class="don-gruss">
         <img src="${DON_FOTO}" alt="Der Don">
-        <div><b style="color:var(--rot)">Dreimal Ja. Abgemacht.</b><br>
+        <div><b style="color:var(--rot)">Ihr sagt Ja. Abgemacht.</b><br>
           Dann gehört der Quellcode jetzt dir: schau hinein, bau nach, mach ihn
           besser.<br>
           <a href="https://github.com/HappyHarryArt/konsensomat">github.com/HappyHarryArt/konsensomat</a><br>

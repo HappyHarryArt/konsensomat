@@ -103,9 +103,8 @@ Teilnehmer, das ist bewusst nicht Teil dieses Werkzeugs.
   persönliche Texte des Autors (Erläuterung, Screenshot der Anlege-Seite als
   eingebettetes Bild `DEMO_ADMIN_BILD`, Foto `DON_FOTO`) und lässt sich in
   `src/worker.js` leicht anpassen oder entfernen.
-- Sagen alle drei Stimmen einer Proberunde Ja, zeigt das Ergebnis einen Gruß
-  vom Don mit dem Link zu diesem Repository: die Demo hält, was die Frage
-  verspricht.
+- Sagt eine Proberunde mehrheitlich Ja, zeigt das Ergebnis einen Gruß vom Don
+  mit dem Link zu diesem Repository: die Demo hält, was die Frage verspricht.
 - Layout für Tablet und Laptop: breitere Karte, größere Schrift, Antwortknöpfe
   nebeneinander.
 
