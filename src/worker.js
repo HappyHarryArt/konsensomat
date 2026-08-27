@@ -916,7 +916,7 @@ function abstimmungsseite(id, s, opt = {}) {
         <img src="${DON_FOTO}" alt="Der Don">
         <div><b style="color:var(--rot)">Dreimal Ja. Abgemacht.</b><br>
           Dann gehört der Quellcode jetzt dir: schau hinein, bau nach, mach ihn
-          besser. Und wenn dir etwas auffällt, sag es mir.<br>
+          besser.<br>
           <a href="https://github.com/HappyHarryArt/konsensomat">github.com/HappyHarryArt/konsensomat</a><br>
           Der Don</div>
       </div>`;
