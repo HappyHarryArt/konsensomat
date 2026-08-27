@@ -574,7 +574,7 @@ function startseite() {
     <form method="POST">
       <h2>Frage</h2>
       <input type="text" name="frage" maxlength="200" required autofocus
-             placeholder="Wie soll ich bei Olympia wählen?">
+             placeholder="Wer spült ab?">
 
       <h2>Auswertung</h2>
       <select name="modus" id="modus">
