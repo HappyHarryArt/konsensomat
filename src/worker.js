@@ -855,6 +855,9 @@ function abstimmungsseite(id, s, opt = {}) {
         <p class="regel" style="margin:10px 0 0">Die Beispielfrage „Wie soll ich bei
           Olympia wählen?" habe ich meinen Kindern gestellt, um ihnen bei
           Einstimmigkeit meine Stimme zu schenken.</p>
+        <p class="regel" style="margin:8px 0 0">Das oben ist ein Bild, darin lässt
+          sich nichts anklicken. Das „Wie funktioniert das?" aus dem Screenshot
+          führt hierhin: <a href="/info">Wie funktioniert das?</a></p>
       </details>` : ''}`;
 
   if (fehler) inhalt += `<div class="fehler">${escape(fehler)}</div>`;
