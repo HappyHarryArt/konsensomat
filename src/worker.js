@@ -419,7 +419,7 @@ body{margin:0;background:var(--grund);color:var(--ink);
   display:flex;justify-content:center;padding:36px 16px 60px;-webkit-text-size-adjust:100%}
 .karte{background:var(--karte);border:1px solid var(--linie);border-radius:22px;
   padding:28px 24px;width:100%;max-width:440px;box-shadow:0 10px 34px rgba(60,45,25,.07)}
-h1{margin:0 0 4px;font-size:1.45rem;letter-spacing:-.02em}
+h1{margin:0 0 4px;font-size:1.45rem;letter-spacing:-.02em;color:var(--rot)}
 h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink2);
   margin:26px 0 10px;font-weight:600}
 .unter{margin:0 0 20px;font-size:.85rem;color:var(--ink2)}
@@ -848,14 +848,14 @@ function abstimmungsseite(id, s, opt = {}) {
       Gerät, niemand stimmt hinein. Du darfst mehrmals abstimmen. Mit der dritten
       Stimme erscheint das Ergebnis, danach beginnt die nächste Runde wieder bei
       null. Die Strichliste geht anonym an den Don.</p>
-      <details class="quittungen"${s.abgegeben === 0 && !s.fertig ? ' open' : ''} style="margin:0 0 16px">
+      ${s.abgegeben === 0 && !s.fertig ? `<details class="quittungen" open style="margin:0 0 16px">
         <summary>So hat der Wahlleiter diese Probewahl angelegt</summary>
         <img src="${DEMO_ADMIN_BILD}" alt="Anlege-Seite mit den Einstellungen dieser Wahl"
              style="width:100%;margin-top:10px;border:1px solid var(--linie);border-radius:14px">
         <p class="regel" style="margin:10px 0 0">Die Beispielfrage „Wie soll ich bei
           Olympia wählen?" habe ich meinen Kindern gestellt, um ihnen bei
           Einstimmigkeit meine Stimme zu schenken.</p>
-      </details>` : ''}`;
+      </details>` : ''}` : ''}`;
 
   if (fehler) inhalt += `<div class="fehler">${escape(fehler)}</div>`;
 
