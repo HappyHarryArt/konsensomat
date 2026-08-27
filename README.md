@@ -90,9 +90,10 @@ Teilnehmer, das ist bewusst nicht Teil dieses Werkzeugs.
   „Willst du den Quellcode?", Ja/Nein, drei Teilnehmer je Runde, danach startet
   mit der nächsten Stimme automatisch eine neue Runde.
 - Jede Demo-Stimme zählt zusätzlich in eine anonyme Strichliste über alle
-  Runden. `/demo-stand` liefert sie als JSON und liegt hinter Cloudflare Access:
-  Entscheidungshilfe für den Don, ob das Repository für Vereinsmitglieder
-  freigegeben wird.
+  Runden; `/demo-stand` liefert sie als JSON. Die Probe-Abstimmung trägt
+  persönliche Texte des Autors (Erläuterung, Screenshot der Anlege-Seite als
+  eingebettetes Bild `DEMO_ADMIN_BILD`) und lässt sich in `src/worker.js`
+  leicht anpassen oder entfernen.
 - Layout für Tablet und Laptop: breitere Karte, größere Schrift, Antwortknöpfe
   nebeneinander.
 
@@ -103,37 +104,50 @@ Teilnehmer, das ist bewusst nicht Teil dieses Werkzeugs.
   KV ohne Sperre, dort konnten gleichzeitige Stimmen verlorengehen.
 - Keine Abhängigkeiten, eine Datei: `src/worker.js`.
 
-## Zugriffsschutz (Cloudflare Access, 27.08.2026)
+## Zugriffsschutz (empfohlen: Cloudflare Access)
 
-Zwei Zero-Trust-Anwendungen auf konsensomat.happyharry.art:
+Der Worker selbst hat keinen Login. Die Referenz-Installation schützt die
+Anlege-Seite mit zwei Zero-Trust-Anwendungen (Cloudflare Access, im Free-Plan
+enthalten); für die eigene Installation gleich nachbauen:
 
 - **Konsensomat Teilnahme** (Bypass, alle): Pfade `/a/*` und `/info`. Teilnehmer
   brauchen keinen Login, ihre Legitimation ist die Wahlkarte.
 - **Konsensomat Verwaltung** (Allow, nur die eigene E-Mail-Adresse): alles andere,
   insbesondere die Anlege-Seite `/`. Login per E-Mail-Einmalcode, Sitzung 24 h.
-  Weitere Wahlleiter = weitere E-Mail-Adressen in der Policy „Verwaltung nur
-  Volker".
+  Weitere Wahlleiter = weitere E-Mail-Adressen in der Allow-Policy.
 
-Damit kann kein Fremder mehr Abstimmungen unter dieser Domain anlegen, die wie
-offizielle Vereins-Abstimmungen aussehen.
+Damit kann kein Fremder Abstimmungen unter der eigenen Domain anlegen, die wie
+offizielle Abstimmungen aussehen. Ohne diesen Schutz funktioniert alles auch,
+dann kann eben jeder mit dem Link Abstimmungen anlegen.
 
-## Erreichbarkeit
+## Selbst betreiben
 
-Öffentlich ist **nur** konsensomat.happyharry.art. Die automatische
-workers.dev-Adresse ist abgeschaltet (`"workers_dev": false`): sie wäre eine
-zweite Tür zur selben Anwendung, an der jeder Schutz auf der eigenen Domain
-vorbeiginge, und sie lässt sich nicht mit Cloudflare Access absichern, weil sie
-nicht in einer eigenen Zone liegt.
-
-Entwickelt wird lokal mit `wrangler dev`. Wird später eine Testumgebung im Netz
-gebraucht, gehört sie auf eine eigene Subdomain der eigenen Zone (z. B.
-dev.konsensomat.happyharry.art) und dort hinter eine Access-Policy.
-
-## Entwickeln und Deployen
+Voraussetzungen: ein Cloudflare-Konto (der kostenlose Plan reicht, Durable
+Objects laufen dort als SQLite-Variante) und Node 20 oder neuer.
 
 ```
-nvm use 20
-npx wrangler dev --port 8797 --local
-npx wrangler deploy
+git clone https://github.com/HappyHarryArt/konsensomat
+cd konsensomat
+npm install
+npx wrangler dev --port 8797 --local    # lokal ausprobieren
+npx wrangler deploy                     # veroeffentlicht auf <name>.workers.dev
 ```
+
+Beim ersten `wrangler deploy` fragt wrangler nach dem Cloudflare-Login und
+legt alles Nötige an; die Abstimmung läuft danach unter der eigenen
+workers.dev-Adresse.
+
+Eigene Domain (optional): in `wrangler.jsonc` einen `routes`-Eintrag ergänzen
+
+```jsonc
+"workers_dev": false,
+"routes": [
+  { "pattern": "abstimmung.example.org", "zone_name": "example.org", "custom_domain": true }
+]
+```
+
+und `workers_dev` abschalten, sonst bleibt die workers.dev-Adresse eine zweite
+Tür, an der ein Access-Schutz der eigenen Domain vorbeiginge (workers.dev
+lässt sich nicht mit Cloudflare Access absichern, es liegt nicht in der
+eigenen Zone).
 

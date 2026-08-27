@@ -1,21 +1,13 @@
 {
   "name": "konsensomat",
   "main": "src/worker.js",
-  // Keine offene workers.dev-Adresse: sie waere eine zweite Tuer, an der jeder
-  // Schutz auf der eigenen Domain vorbeigeht. Entwickelt wird lokal
-  // (wrangler dev), oeffentlich ist nur konsensomat.happyharry.art.
-  "workers_dev": false,
+  // Standard: Deployment auf der eigenen workers.dev-Adresse. Fuer eine eigene
+  // Domain "workers_dev" auf false setzen und einen routes-Eintrag ergaenzen
+  // (Beispiel im README unter "Selbst betreiben") — sonst bleibt workers.dev
+  // eine zweite Tuer, an der ein Access-Schutz der Domain vorbeigeht.
+  "workers_dev": true,
   "preview_urls": false,
   "compatibility_date": "2026-04-26",
-  "routes": [
-    {
-      "pattern": "konsensomat.happyharry.art",
-      "zone_name": "happyharry.art",
-      "custom_domain": true,
-      "enabled": true,
-      "previews_enabled": false
-    }
-  ],
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
