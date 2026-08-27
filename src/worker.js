@@ -996,7 +996,7 @@ function abstimmungsseite(id, s, opt = {}) {
   // Demo: kein Link zur Anlege-Seite (die steckt hinter Cloudflare Access und
   // zeigt Fremden nur eine Login-Wand) — stattdessen die Wiederholung.
   inhalt += `<p class="fuss">Niemand sieht, wer was geantwortet hat ·
-    <a href="/info">Wie funktioniert das?</a> ·
+    <a href="/info" target="_blank" rel="noopener">Wie funktioniert das?</a> ·
     ${s.demo ? `<a href="/a/demo">Nochmal abstimmen</a>` : `<a href="/">Neue Abstimmung</a>`}</p>`;
 
   const merken = neu
