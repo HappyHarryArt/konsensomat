@@ -691,9 +691,9 @@ function infoseite(w) {
     }
     <div class="hinweis">Beim Ausprobieren sind Frage und Antworten vorgegeben:
       <b>„Willst du den Quellcode?"</b>, Ja oder Nein, drei Teilnehmer je Runde.
-      Deine Antwort fließt zusätzlich anonym in eine Strichliste ein und geht an
-      den Don als Entscheidungshilfe, ob er das Repository für Vereinsmitglieder
-      auf GitHub freigibt.</div>`;
+      Deine Antwort fließt zusätzlich anonym in eine Strichliste ein. Und wer
+      dreimal Ja sagt, bekommt den Quellcode tatsächlich: der Link erscheint
+      mit dem Ergebnis.</div>`;
 
   const skript = `<script>
     // Mini-RSVP: die Kurzfassung der Idee, vorgeführt statt erklärt.

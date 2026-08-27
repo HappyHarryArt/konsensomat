@@ -1,5 +1,6 @@
 {
   "name": "konsensomat",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "wrangler dev --port 8797",
