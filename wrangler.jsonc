@@ -11,14 +11,14 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1,
-    // Query-Strings nicht mitloggen: die QR-Links tragen den Zugangscode
-    // als ?c=..., der sonst im Klartext in den Workers-Logs landete.
-    "redact_query_string": true,
     "logs": {
       "enabled": true,
       "head_sampling_rate": 1,
       "persist": true,
-      "invocation_logs": true
+      // Keine automatischen Request-Logs: die trugen die volle URL und damit
+      // den Zugangscode (?c=...) im Klartext. Ein "redact_query_string" gibt
+      // es in wrangler nicht; Fehler und eigene Logs bleiben erfasst.
+      "invocation_logs": false
     },
     "traces": {
       "enabled": false,
