@@ -89,8 +89,14 @@ Teilnehmer, das ist bewusst nicht Teil dieses Werkzeugs.
 - Ohne Wahlkarte bietet `/info` eine **Probe-Abstimmung** (`/a/demo`) an: Frage
   „Willst du den Quellcode?", Ja/Nein, drei Teilnehmer je Runde, danach startet
   mit der nächsten Stimme automatisch eine neue Runde.
+- **Jedes Gerät probt in seiner eigenen Runde** (Objekt `demo-<Wählerkennung
+  aus dem Cookie>`). Teilen sich alle Besucher eine Runde, stimmt jeder in eine
+  fremde hinein und verliert seine Stimme, sobald ein Fremder die Runde
+  vollmacht; wer nachbaut, sollte das so lassen.
 - Jede Demo-Stimme zählt zusätzlich in eine anonyme Strichliste über alle
-  Runden; `/demo-stand` liefert sie als JSON. Die Probe-Abstimmung trägt
+  Geräte und Runden. Sie liegt getrennt von jeder Runde im Objekt `demo` unter
+  dem Schlüssel `strichliste`. `/demo-stand` zeigt sie als Balkengrafik mit
+  Knopf zum Leeren (`?json=1` liefert die nackten Zahlen). Die Probe-Abstimmung trägt
   persönliche Texte des Autors (Erläuterung, Screenshot der Anlege-Seite als
   eingebettetes Bild `DEMO_ADMIN_BILD`) und lässt sich in `src/worker.js`
   leicht anpassen oder entfernen.

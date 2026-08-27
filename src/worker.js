@@ -87,6 +87,9 @@ async function hashen(salt, text) {
 }
 
 const MAX_FEHLVERSUCHE = 12;
+// Frage der Probe-Abstimmung. Sie steht hier, weil sowohl die Runde als auch
+// die Strichliste sie brauchen.
+const DEMO_FRAGE = 'Willst du den Quellcode?';
 // Nach dieser Frist löscht sich eine Abstimmung von selbst (Datensparsamkeit).
 const AUFBEWAHRUNG_TAGE = 60;
 
@@ -134,8 +137,18 @@ export class Abstimmung {
           }
           ergebnis = { ok: true };
           break;
+        case 'leeren':
+          // Strichliste zurücksetzen. Nimmt die alte gemeinsame Demo-Runde
+          // gleich mit, sonst würden ihre Zahlen beim nächsten Strich wieder
+          // als Startwert übernommen.
+          await this.state.storage.deleteAll();
+          ergebnis = { ok: true };
+          break;
+        case 'strich':
+          ergebnis = { gesamt: await this.strichliste(s, eingabe) };
+          break;
         case 'stand':
-          ergebnis = s && s.demo ? { gesamt: s.gesamt, frage: s.frage } : { fehler: 'nur für die Demo' };
+          ergebnis = { frage: DEMO_FRAGE, gesamt: await this.strichliste(s) };
           break;
         case 'karten':
           ergebnis =
@@ -189,10 +202,10 @@ export class Abstimmung {
       admin,
       erstellt: new Date().toISOString(),
       codes: null,
-      // Demo-Abstimmung: setzt sich nach jeder vollen Runde selbst zurueck und
-      // fuehrt eine anonyme Strichliste ueber alle Runden (Entscheidungshilfe).
+      // Probe-Abstimmung: eine eigene Runde je Geraet, die sich nach jeder
+      // vollen Runde selbst zuruecksetzt. Die anonyme Strichliste ueber alle
+      // Runden liegt getrennt davon im Zaehl-Objekt 'demo'.
       demo: !!demo,
-      gesamt: demo ? { runden: 0 } : null,
       ...this.leererStand(opt),
     };
 
@@ -226,9 +239,27 @@ export class Abstimmung {
     };
   }
 
+  /**
+   * Anonyme Strichliste der Probe-Abstimmung. Sie liegt in einem eigenen
+   * Objekt neben allen Runden, damit weder ein Neustart noch die Aufbewahrungs-
+   * frist sie mitnimmt. Ohne Eingabe wird nur gelesen.
+   */
+  async strichliste(s, { text, runde } = {}) {
+    let liste = await this.state.storage.get('strichliste');
+    // Einmalige Übernahme der Zahlen aus der früheren gemeinsamen Demo-Runde.
+    if (!liste) liste = s && s.gesamt ? { ...s.gesamt } : { runden: 0 };
+    if (text) liste[text] = (liste[text] || 0) + 1;
+    if (runde) liste.runden = (liste.runden || 0) + 1;
+    await this.state.storage.put('strichliste', liste);
+    return liste;
+  }
+
   /** Räumt die Abstimmung nach Ablauf der Frist selbst weg. */
   async alarm() {
+    // Die Strichliste zählt über Jahre und überlebt das Aufräumen.
+    const liste = await this.state.storage.get('strichliste');
     await this.state.storage.deleteAll();
+    if (liste) await this.state.storage.put('strichliste', liste);
   }
 
   /** Was die Seite sehen darf. Salt, Hash, Admin-Token und Codes bleiben drin. */
@@ -285,14 +316,15 @@ export class Abstimmung {
       treffer.benutzt = true;
     }
 
+    let gewaehlt = null;
     if (s.optionen) {
       const i = parseInt(antwort, 10);
       if (!(i >= 0 && i < s.optionen.length)) return { fehler: 'Bitte eine Antwort auswählen.' };
       s.zaehler[i]++;
-      if (s.demo && s.gesamt) {
-        const t = s.optionen[i].text;
-        s.gesamt[t] = (s.gesamt[t] || 0) + 1;
-      }
+      // Nur die Probe-Abstimmung gibt die Antwort heraus, damit der Worker sie
+      // in die anonyme Strichliste legen kann. Bei echten Abstimmungen verlässt
+      // sie dieses Objekt nie.
+      if (s.demo) gewaehlt = s.optionen[i].text;
     } else {
       const wert = normalisieren(antwort || '');
       if (!wert) return { fehler: 'Bitte eine Antwort eingeben.' };
@@ -320,12 +352,11 @@ export class Abstimmung {
       s.fertig = true;
       s.ersterHash = null;
       s.salt = zufall(16);
-      if (s.demo && s.gesamt) s.gesamt.runden++;
     }
     delete s.letzterWert;
 
     await this.state.storage.put('sitzung', s);
-    return { ok: true, quittung, fertig: s.fertig };
+    return { ok: true, quittung, fertig: s.fertig, gewaehlt };
   }
 
   auswerten(s) {
@@ -730,6 +761,77 @@ function infoseite(w) {
   return html(inhalt, 'Konsensomat: Was ist das?', skript);
 }
 
+/**
+ * Grafische Strichliste der Probe-Abstimmung. Liegt hinter Cloudflare Access,
+ * sieht also nur der Don. Die nackten Zahlen gibt es weiter unter ?json=1.
+ */
+function strichlistenseite({ frage, gesamt }, darfLeeren) {
+  const liste = gesamt || { runden: 0 };
+  const antworten = Object.keys(liste)
+    .filter((k) => k !== 'runden')
+    .map((k) => ({ text: k, n: liste[k] }))
+    .sort((a, b) => b.n - a.n);
+  const summe = antworten.reduce((n, a) => n + a.n, 0);
+  const runden = liste.runden || 0;
+
+  const stil = `<style>
+    .striche{margin:22px 0 0}
+    .strich{margin:0 0 14px}
+    .strich .kopf{display:flex;align-items:baseline;gap:8px;font-size:.95rem;margin:0 0 5px}
+    .strich .zahl{margin-left:auto;font-variant-numeric:tabular-nums;font-weight:600}
+    .strich .prozent{font-size:.8rem;color:var(--ink2);font-variant-numeric:tabular-nums}
+    .strich .spur{height:14px;background:var(--linie);border-radius:7px;overflow:hidden}
+    .strich .spur i{display:block;height:100%;background:var(--gold);border-radius:7px}
+    .strich.vorn .spur i{background:var(--gruen)}
+    .zahlen{display:flex;gap:10px;margin:22px 0 0}
+    .zahlen div{flex:1;text-align:center;background:#fbf8f2;border:1px solid var(--linie);
+      border-radius:12px;padding:12px 8px}
+    .zahlen b{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}
+    .zahlen span{font-size:.75rem;color:var(--ink2)}
+  </style>`;
+
+  let inhalt = `${stil}<h1>Strichliste</h1>
+    <p class="unter">Probe-Abstimmung, anonym gezählt über alle Geräte und Runden
+      hinweg. Keine Stimme hängt an einer Person.</p>
+    <p class="frage">${escape(frage || '')}</p>`;
+
+  if (!summe) {
+    inhalt += `<p class="stand">Noch keine Stimme abgegeben.</p>`;
+  } else {
+    const spitze = antworten[0];
+    const anteil = Math.round((spitze.n / summe) * 100);
+    inhalt += `<div class="ergebnis ${spitze.text === 'Nein' ? 'nein' : 'ja'}">
+        <div class="kopf">${escape(String(spitze.text).toUpperCase())} LIEGT VORN</div>
+        <div class="wert">${anteil} %</div></div>
+      <div class="striche">${antworten
+        .map(
+          (a, i) => `<div class="strich${i === 0 ? ' vorn' : ''}">
+            <div class="kopf"><span>${escape(a.text)}</span>
+              <span class="prozent">${Math.round((a.n / summe) * 100)} %</span>
+              <span class="zahl">${a.n}</span></div>
+            <div class="spur"><i style="width:${Math.round((a.n / summe) * 100)}%"></i></div>
+          </div>`
+        )
+        .join('')}</div>
+      <div class="zahlen">
+        <div><b>${summe}</b><span>Stimmen</span></div>
+        <div><b>${runden}</b><span>volle Runden</span></div>
+      </div>`;
+  }
+
+  if (darfLeeren) {
+    inhalt += `<form method="POST">
+      <button class="leise" name="leeren" value="1"
+        onclick="return confirm('Strichliste wirklich auf null setzen?')">Strichliste leeren</button>
+    </form>`;
+  }
+
+  inhalt += `<p class="fuss">Nur für den Don · <a href="/demo-stand?json=1">nackte Zahlen</a>
+    · <a href="/a/demo">zur Probe-Abstimmung</a></p>`;
+
+  return html(inhalt, 'Strichliste der Probe-Abstimmung');
+}
+
 function abstimmungsseite(id, s, opt = {}) {
   const { admin, neu, codes, fehler, herkunft, codeDa, quittung } = opt;
   if (s.fehlt) {
@@ -742,9 +844,10 @@ function abstimmungsseite(id, s, opt = {}) {
   let inhalt = `<h1>Konsensomat</h1>
     <p class="frage">${escape(s.frage)}</p>
     <p class="regel">${escape(regel.name)} · ${escape(regel.kurz)}</p>
-    ${s.demo ? `<p class="regel">Probe-Abstimmung: du darfst mehrmals abstimmen, auch
-      vom selben Gerät. Mit der dritten Stimme erscheint das Ergebnis, danach
-      beginnt die nächste Runde wieder bei null. Die Strichliste geht anonym an den Don.</p>
+    ${s.demo ? `<p class="regel">Probe-Abstimmung: diese Runde gehört nur deinem
+      Gerät, niemand stimmt hinein. Du darfst mehrmals abstimmen. Mit der dritten
+      Stimme erscheint das Ergebnis, danach beginnt die nächste Runde wieder bei
+      null. Die Strichliste geht anonym an den Don.</p>
       <details class="quittungen"${s.abgegeben === 0 && !s.fertig ? ' open' : ''} style="margin:0 0 16px">
         <summary>So hat der Wahlleiter diese Probewahl angelegt</summary>
         <img src="${DEMO_ADMIN_BILD}" alt="Anlege-Seite mit den Einstellungen dieser Wahl"
@@ -943,6 +1046,19 @@ function kekseLesen(request) {
   return raus;
 }
 
+/**
+ * Formulardaten holen. Ein POST ohne Formular (Suchmaschine, Bot, ein curl mit
+ * -X POST hinter einer Weiterleitung) warf sonst eine Ausnahme und der Besucher
+ * sah die Fehlerseite des Rechenzentrums statt der Abstimmung.
+ */
+async function formular(request) {
+  try {
+    return await request.formData();
+  } catch {
+    return new FormData();
+  }
+}
+
 async function ruf(env, id, aktion, daten) {
   const stub = env.ABSTIMMUNG.get(env.ABSTIMMUNG.idFromName(id));
   const r = await stub.fetch(`https://do/${aktion}`, {
@@ -974,7 +1090,7 @@ export default {
     /* Startseite und Anlegen */
     if (url.pathname === '/') {
       if (request.method === 'POST') {
-        const f = await request.formData();
+        const f = await formular(request);
         const id = zufall(6);
         const r = await ruf(env, id, 'anlegen', {
           frage: f.get('frage'),
@@ -1004,8 +1120,24 @@ export default {
     // Anonyme Strichliste der Demo (liegt NICHT unter /a oder /info und ist
     // damit automatisch hinter Cloudflare Access: nur der Don sieht sie).
     if (url.pathname === '/demo-stand') {
+      // Der Knopf „Strichliste leeren" setzt sie auf null, etwa nachdem jemand
+      // die Demo zum Ausprobieren vollgeklickt hat. Zweiter Riegel neben Access:
+      // ohne dessen Nachweis im Kopf wird nichts gelöscht, falls der Schutz vor
+      // dieser Seite einmal wegfällt.
+      const durchAccess = !!request.headers.get('Cf-Access-Jwt-Assertion');
+      if (request.method === 'POST') {
+        const f = await formular(request);
+        if (f.has('leeren') && durchAccess) await ruf(env, 'demo', 'leeren', {});
+        kopf.set('Location', '/demo-stand');
+        return new Response('', { status: 302, headers: kopf });
+      }
       const r = await ruf(env, 'demo', 'stand');
-      return mitKopf(new Response(JSON.stringify(r), { headers: { 'Content-Type': 'application/json' } }));
+      if (url.searchParams.get('json') === '1') {
+        return mitKopf(
+          new Response(JSON.stringify(r), { headers: { 'Content-Type': 'application/json' } })
+        );
+      }
+      return mitKopf(strichlistenseite(r, durchAccess));
     }
 
     /* Wahlkarten zum Ausdrucken, nur mit Admin-Cookie */
@@ -1029,13 +1161,17 @@ export default {
     if (m) {
       const id = m[1];
       const admin = kekse[`k_admin_${id}`] || null;
+      // Jedes Gerät bekommt seine eigene Proberunde. Vorher lief die Demo in
+      // einem einzigen Objekt für alle: wer dazukam, stimmte in eine fremde
+      // Runde und verlor die eigene Stimme, sobald ein Fremder sie vollmachte.
+      const objekt = id === 'demo' ? `demo-${waehler}` : id;
 
       // Die Probe-Abstimmung legt sich beim ersten Besuch selbst an.
       if (id === 'demo') {
-        const s0 = await ruf(env, id, 'lesen', {});
+        const s0 = await ruf(env, objekt, 'lesen', {});
         if (s0.fehlt) {
-          await ruf(env, id, 'anlegen', {
-            frage: 'Willst du den Quellcode?',
+          await ruf(env, objekt, 'anlegen', {
+            frage: DEMO_FRAGE,
             ziel: 3,
             modus: 'einfach',
             optionen: ['Ja', 'Nein'],
@@ -1045,21 +1181,28 @@ export default {
       }
 
       if (request.method === 'POST') {
-        const f = await request.formData();
+        const f = await formular(request);
         let fehler = null;
 
         if (f.has('entsperren')) {
-          fehler = (await ruf(env, id, 'entsperren', { admin })).fehler || null;
+          fehler = (await ruf(env, objekt, 'entsperren', { admin })).fehler || null;
         } else if (f.has('loeschen')) {
-          const r = await ruf(env, id, 'loeschen', { admin });
+          const r = await ruf(env, objekt, 'loeschen', { admin });
           if (!r.fehler) {
             kopf.set('Location', '/');
             return new Response('', { status: 302, headers: kopf });
           }
           fehler = r.fehler;
+        } else if (id === 'demo' && !kekse.k_waehler) {
+          // Ohne Merkzettel im Browser gehört die Proberunde niemandem: die
+          // Stimme läge in einer Runde, die der nächste Aufruf nicht wiederfindet.
+          // Lieber ehrlich sagen als still verschlucken.
+          fehler =
+            'Die Proberunde braucht einen kleinen Merkzettel in deinem Browser. ' +
+            'Er ist jetzt gesetzt, bitte stimme noch einmal ab.';
         } else {
           var rundeVoll = false;
-          const r = await ruf(env, id, 'stimmen', {
+          const r = await ruf(env, objekt, 'stimmen', {
             antwort: f.get('antwort'),
             code: f.get('code') || kekse[`k_code_${id}`] || '',
             waehler,
@@ -1070,10 +1213,15 @@ export default {
           // sortierte Liste aller Quittungen.
           if (r.quittung) kopf.append('Set-Cookie', keks(`k_quittung_${id}`, r.quittung, 90));
           rundeVoll = !!r.fertig;
+          // Die anonyme Strichliste der Demo sammelt über alle Geräte hinweg
+          // weiter, ohne Bezug zur Person und ohne Bezug zu einer Runde.
+          if (id === 'demo' && r.gewaehlt) {
+            await ruf(env, 'demo', 'strich', { text: r.gewaehlt, runde: rundeVoll });
+          }
         }
 
         if (fehler) {
-          const s = await ruf(env, id, 'lesen', { waehler });
+          const s = await ruf(env, objekt, 'lesen', { waehler });
           return mitKopf(abstimmungsseite(id, s, { admin, fehler }));
         }
         kopf.set('Location', `/a/${id}${id === 'demo' && rundeVoll ? '?ergebnis=1' : ''}`);
@@ -1092,12 +1240,12 @@ export default {
         return new Response('', { status: 302, headers: kopf });
       }
 
-      let s = await ruf(env, id, 'lesen', { waehler });
+      let s = await ruf(env, objekt, 'lesen', { waehler });
       if (id === 'demo' && s.fertig && !url.searchParams.has('ergebnis')) {
         // Wer frisch dazukommt, soll bei 0 von 3 starten; das Ergebnis hat nur
         // die Stimme zu sehen bekommen, die die Runde voll gemacht hat.
-        await ruf(env, id, 'neustart', {});
-        s = await ruf(env, id, 'lesen', { waehler });
+        await ruf(env, objekt, 'neustart', {});
+        s = await ruf(env, objekt, 'lesen', { waehler });
       }
       const neu = url.searchParams.has('neu');
       const codes = neu && kekse[`k_codes_${id}`] ? kekse[`k_codes_${id}`].split('.') : null;
