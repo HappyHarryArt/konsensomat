@@ -3,9 +3,7 @@
 Geheime Abstimmung für kleine Gruppen. Alle stimmen blind ab, das Ergebnis
 erscheint erst, wenn alle Stimmen vorliegen.
 
-Live: **https://konsensomat.happyharry.art**
-(Cloudflare Worker `konsensomat`, Vorgänger war `walomat-worker` auf
-walomat.happyharry.art)
+Live: **https://konsensomat.happyharry.art** (Cloudflare Worker)
 
 ## Was der Administrator einstellt
 
