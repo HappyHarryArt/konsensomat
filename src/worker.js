@@ -864,9 +864,6 @@ function abstimmungsseite(id, s, opt = {}) {
         <summary>So hat der Wahlleiter diese Probewahl angelegt</summary>
         <img src="${DEMO_ADMIN_BILD}" alt="Anlege-Seite mit den Einstellungen dieser Wahl"
              style="width:100%;margin-top:10px;border:1px solid var(--linie);border-radius:14px">
-        <p class="regel" style="margin:10px 0 0">Die Beispielfrage „Wie soll ich bei
-          Olympia wählen?" habe ich meinen Kindern gestellt, um ihnen bei
-          Einstimmigkeit meine Stimme zu schenken.</p>
       </details>` : ''}` : ''}`;
 
   if (fehler) inhalt += `<div class="fehler">${escape(fehler)}</div>`;
