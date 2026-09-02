@@ -423,7 +423,7 @@ const STIL = `
 body{margin:0;background:var(--grund);color:var(--ink);
   font:16px/1.55 -apple-system,'Segoe UI','Helvetica Neue',sans-serif;
   display:flex;justify-content:center;padding:36px 16px 60px;-webkit-text-size-adjust:100%;
-  /* Handgezeichnete Kringel wie auf Caros Seiten: reine Deko, kein Nachladen */
+  /* Handgezeichnete Kringel wie auf den Vereinsseiten: reine Deko, kein Nachladen */
   background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'><g fill='none' stroke='%23e2a0da' stroke-width='1.5'><ellipse cx='220' cy='220' rx='150' ry='138' transform='rotate(8 220 220)'/><ellipse cx='224' cy='216' rx='172' ry='156' transform='rotate(-14 220 220)'/><ellipse cx='216' cy='224' rx='196' ry='176' transform='rotate(24 220 220)'/></g></svg>"),
     url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='440' viewBox='0 0 440 440'><g fill='none' stroke='%23e2a0da' stroke-width='1.5'><ellipse cx='220' cy='220' rx='150' ry='138' transform='rotate(8 220 220)'/><ellipse cx='224' cy='216' rx='172' ry='156' transform='rotate(-14 220 220)'/><ellipse cx='216' cy='224' rx='196' ry='176' transform='rotate(24 220 220)'/></g></svg>");
   background-repeat:no-repeat,no-repeat;
