@@ -96,13 +96,7 @@ Teilnehmer, das ist bewusst nicht Teil dieses Werkzeugs.
   aus dem Cookie>`). Teilen sich alle Besucher eine Runde, stimmt jeder in eine
   fremde hinein und verliert seine Stimme, sobald ein Fremder die Runde
   vollmacht; wer nachbaut, sollte das so lassen.
-- Jede Demo-Stimme zählt zusätzlich in eine anonyme Strichliste über alle
-  Geräte und Runden. Sie liegt getrennt von jeder Runde im Objekt `demo` unter
-  dem Schlüssel `strichliste`. `/demo-stand` zeigt sie als Balkengrafik mit
-  Knopf zum Leeren (`?json=1` liefert die nackten Zahlen). Die Probe-Abstimmung trägt
-  persönliche Texte des Autors (Erläuterung, Screenshot der Anlege-Seite als
-  eingebettetes Bild `DEMO_ADMIN_BILD`, Foto `DON_FOTO`) und lässt sich in
-  `src/worker.js` leicht anpassen oder entfernen.
+
 - Sagt eine Proberunde mehrheitlich Ja, zeigt das Ergebnis einen Gruß vom Don
   mit dem Link zu diesem Repository: die Demo hält, was die Frage verspricht.
 - Layout für Tablet und Laptop: breitere Karte, größere Schrift, Antwortknöpfe
