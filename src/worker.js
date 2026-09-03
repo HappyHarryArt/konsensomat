@@ -60,6 +60,24 @@ const DEMO_ADMIN_BILD = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABQAAAAhwC
 // Der Don selbst, fuer den Gruss am Ende jeder Probe-Runde.
 const DON_FOTO = 'data:image/jpeg;base64,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';
 
+// Wer diese Anwendung betreibt. Die Angaben stehen im Impressum, in der
+// Datenschutzerklaerung, in den Fusszeilen und in /llms.txt. Wer den
+// Konsensomat selbst betreibt, traegt hier seine eigenen Daten ein: ein
+// Impressum ist in Deutschland Pflicht, und die Domain steht in den Texten.
+// Im oeffentlichen Repository stehen hier Platzhalter, keine Kontaktdaten.
+const BETREIBER = {
+  name: '[Name des Betreibers]',
+  anschrift: '[Straße und Hausnummer]<br>[PLZ Ort]<br>[Land]',
+  telefon: '[Telefonnummer]',
+  email: '[E-Mail-Adresse]',
+  verantwortlich: '[Name des Betreibers]',
+  ort: '[Ort]',
+  copyright: '© 2026 [Name des Betreibers]',
+  domain: '[deine-domain.example]',
+};
+// Woher der Konsensomat stammt. Bleibt auch bei eigenem Betrieb stehen.
+const PROJEKT = { name: 'happyharry.art', url: 'https://happyharry.art' };
+
 // Alphabet ohne Verwechslungspaare: von O/0, I/1 und B/8 steht höchstens ein
 // Zeichen drin (0 und 8 ja, O, B, I und 1 nicht). So sind es genau 32 Zeichen,
 // also 5 Bit je Stelle ohne Rest beim Würfeln: ein achtstelliger Code hat
@@ -159,7 +177,7 @@ export class Abstimmung {
           break;
         case 'karten':
           ergebnis =
-            !s || eingabe.admin !== s.admin
+            !s || (!s.demo && eingabe.admin !== s.admin)
               ? { fehler: 'nicht erlaubt' }
               : {
                   frage: s.frage,
@@ -674,7 +692,7 @@ function infoseite(w) {
       Auswertung: einstimmig, einfache Mehrheit oder Zweidrittelmehrheit. Auf Wunsch
       mit Enthaltung.</p>
     <p><b>2.</b> Er verteilt den Link, oder sicherer: er druckt <span class="wk-tipp" id="wk-tipp"><b>Wahlkarten mit
-      QR-Code</b><span class="wk-pop">${qrSvg('https://konsensomat.happyharry.art/a/demo', 120)}<span class="wknr">Karte 1</span><span class="wkcode">FKDA-3T7X</span><span class="wkfrage">Willst du den Quellcode?</span></span></span> aus, eine je stimmberechtigter Person. Wer seine Karte scannt,
+      QR-Code</b><span class="wk-pop">${qrSvg('https://' + BETREIBER.domain + '/a/demo', 120)}<span class="wknr">Karte 1</span><span class="wkcode">FKDA-3T7X</span><span class="wkfrage">Willst du den Quellcode?</span></span></span> aus, eine je stimmberechtigter Person. Wer seine Karte scannt,
       landet direkt beim Stimmzettel. Jede Karte gilt genau einmal.</p>
     <p><b>3.</b> Jede Person tippt ihre Antwort an. Als Beleg bekommt sie eine
       <b>Wahlquittung</b>, einen kurzen Zufallscode, den nur sie sieht.</p>
@@ -794,7 +812,54 @@ function infoseite(w) {
       document.addEventListener('click', function () { t.classList.remove('offen'); });
     })();
   </script>`;
-  return html(inhalt, 'Konsensomat: Was ist das?', skript);
+  const legal = `
+    <details id="impressum" class="quittungen" style="margin-top:30px"><summary>Impressum</summary>
+      <div class="hinweis" style="margin-top:10px"><b>Angaben gemäß §5 TMG</b><br><br>
+      ${BETREIBER.name}<br>${BETREIBER.anschrift}<br><br>
+      Telefon: ${BETREIBER.telefon}<br>E-Mail: ${BETREIBER.email}<br><br>
+      Verantwortlich für den Inhalt nach §55 Abs.2 RStV: ${BETREIBER.verantwortlich}, Adresse wie oben.<br><br>
+      <b>Haftung für Inhalte:</b> Als Diensteanbieter bin ich gemäß §7 Abs.1 TMG für eigene
+      Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§8 bis 10
+      TMG bin ich jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+      Informationen zu überwachen. Die Inhalte angelegter Abstimmungen (Fragen, Antworten)
+      stammen von den jeweiligen Wahlleitern; bei Bekanntwerden von Rechtsverletzungen werden
+      sie entfernt.<br><br>
+      <b>Urheberrecht:</b> ${BETREIBER.copyright}. Der Konsensomat ist ein Projekt von
+      <a href="${PROJEKT.url}">${PROJEKT.name}</a>. Der Quellcode steht unter der
+      MIT-Lizenz; die Texte dieser Seiten sind urheberrechtlich geschützt.<br><br>
+      <b>EU-Streitschlichtung:</b> Die Europäische Kommission stellt eine Plattform zur
+      Online-Streitbeilegung bereit: https://ec.europa.eu/consumers/odr/ — ich bin nicht
+      bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer
+      Verbraucherschlichtungsstelle teilzunehmen.</div></details>
+    <details id="datenschutz" class="quittungen"><summary>Datenschutz</summary>
+      <div class="hinweis" style="margin-top:10px"><b>Datenschutzerklärung</b> für
+      ${BETREIBER.domain}. Verantwortlich ist die im Impressum genannte Person.<br><br>
+      <b>1. Hosting:</b> Diese Anwendung läuft bei der Cloudflare Inc. (101 Townsend St,
+      San Francisco, CA 94107, USA). Beim Aufruf werden technisch bedingt IP-Adresse,
+      Datum und Uhrzeit, abgerufene Adresse, Referrer und Browser-Kennung verarbeitet
+      (Art. 6 Abs. 1 lit. f DSGVO, sicherer Betrieb). Cloudflare ist unter dem EU-US Data
+      Privacy Framework zertifiziert.<br><br>
+      <b>2. Cookies:</b> Es werden ausschließlich technisch notwendige Cookies gesetzt
+      (eine zufällige Wähler-Kennung gegen Doppelstimmen, bei Wahlleitern eine
+      Verwaltungs-Kennung, nach dem Abstimmen die eigene Wahlquittung). Keine
+      Tracking-Cookies, keine Analysedienste, keine Werbung — darum auch kein
+      Cookie-Banner.<br><br>
+      <b>3. Abstimmungsdaten:</b> Es wird nicht gespeichert, wer wie gestimmt hat. Während
+      einer Runde liegen nur anonyme Kennungen und Zähler vor; 60 Tage nach dem Anlegen
+      löscht sich jede Abstimmung selbst.<br><br>
+      <b>4. Ihre Rechte:</b> Auskunft, Berichtigung, Löschung, Einschränkung und
+      Datenübertragbarkeit nach Art. 15–20 DSGVO über die Adresse im Impressum; dazu das
+      Beschwerderecht bei der zuständigen Aufsichtsbehörde.<br><br>
+      Stand: August 2026</div></details>
+    <p class="fuss">Ein Projekt von <a href="${PROJEKT.url}">${PROJEKT.name}</a> ·
+      ${BETREIBER.copyright} · Quellcode unter MIT-Lizenz</p>
+    <script>
+      if (location.hash === '#impressum' || location.hash === '#datenschutz') {
+        var dEl = document.querySelector(location.hash);
+        if (dEl) { dEl.open = true; dEl.scrollIntoView(); }
+      }
+    </script>`;
+  return html(inhalt + legal, 'Konsensomat: Was ist das?', skript);
 }
 
 /**
@@ -1028,7 +1093,8 @@ function abstimmungsseite(id, s, opt = {}) {
   // zeigt Fremden nur eine Login-Wand) — stattdessen die Wiederholung.
   inhalt += `<p class="fuss">Niemand sieht, wer was geantwortet hat ·
     <a href="/info" target="_blank" rel="noopener">Wie funktioniert das?</a> ·
-    ${s.demo ? `<a href="/a/demo">Nochmal abstimmen</a>` : `<a href="/">Neue Abstimmung</a>`}</p>`;
+    ${s.demo ? `<a href="/a/demo">Nochmal abstimmen</a>` : `<a href="/">Neue Abstimmung</a>`} ·
+    ${BETREIBER.copyright} · <a href="/info#impressum">Impressum</a></p>`;
 
   const merken = neu
     ? `<script>try{var m=JSON.parse(localStorage.getItem('konsensomat')||'[]');
@@ -1069,16 +1135,93 @@ function kartenseite(id, k, herkunft) {
     }</p>
     <div class="kartenblatt">${karten}</div>
     <div class="nurbild">
-      <button type="button" onclick="window.print()">Drucken</button>
+      ${k.codes ? '' : '<button type="button" onclick="kartenPdf()">Als A4-PDF laden (4 zum Ausschneiden)</button>'}
+      <button type="button" ${k.codes ? '' : 'class="leise"'} onclick="window.print()">Drucken</button>
       <a href="/a/${escape(id)}"><button type="button" class="leise">Zurück zur Abstimmung</button></a>
-    </div>`;
+    </div>
+    <p class="fuss nurbild">${BETREIBER.copyright} · <a href="/info#impressum">Impressum</a></p>`;
+
+  // Karten als A4-PDF zum Ausschneiden: die Karte wird auf eine Leinwand
+  // gemalt, als JPEG in ein von Hand gebautes Mini-PDF eingebettet und vier
+  // Mal pro Seite gesetzt (der Kartenrand ist zugleich die Schnittlinie).
+  const skript = `
+    function karteAufLeinwand(fertig) {
+      var karte = document.querySelector('.wahlkarte');
+      var svg = karte.querySelector('svg');
+      var img = new Image();
+      img.onload = function () {
+        var S = 3, B = 340, H = 420;
+        var c = document.createElement('canvas'); c.width = B * S; c.height = H * S;
+        var g = c.getContext('2d'); g.scale(S, S);
+        g.fillStyle = '#fff'; g.fillRect(0, 0, B, H);
+        g.strokeStyle = '#bbb'; g.strokeRect(0.5, 0.5, B - 1, H - 1);
+        g.drawImage(img, (B - 240) / 2, 24, 240, 240);
+        g.textAlign = 'center'; g.fillStyle = '#6e6580';
+        g.font = '600 13px -apple-system, Helvetica, sans-serif';
+        var y = 296;
+        var knr = karte.querySelector('.knr'), kfrage = karte.querySelector('.kfrage');
+        if (knr) { g.fillText(knr.textContent, B / 2, y); y += 26; }
+        g.fillStyle = '#2d2a33'; g.font = '600 17px -apple-system, Helvetica, sans-serif';
+        var worte = (kfrage ? kfrage.textContent : '').split(' '), zeile = '';
+        worte.forEach(function (w) {
+          if ((zeile + ' ' + w).trim().length > 30) { g.fillText(zeile.trim(), B / 2, y); y += 24; zeile = w; }
+          else zeile += ' ' + w;
+        });
+        if (zeile.trim()) g.fillText(zeile.trim(), B / 2, y);
+        fertig(c);
+      };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+    }
+    function kartenPdf() {
+      karteAufLeinwand(function (c) {
+        var jpegDataUrl = c.toDataURL('image/jpeg', 0.92);
+        var roh = atob(jpegDataUrl.split(',')[1]);
+        var jpeg = new Uint8Array(roh.length);
+        for (var i = 0; i < roh.length; i++) jpeg[i] = roh.charCodeAt(i);
+
+        var enc = new TextEncoder();
+        var teile = [], offsets = [], pos = 0;
+        function schreib(t) { var b = typeof t === 'string' ? enc.encode(t) : t; teile.push(b); pos += b.length; }
+        function objekt(text) { offsets.push(pos); schreib(text); }
+
+        // A4 hoch, 4 Karten (2 x 2), Kartenmass 260 x 321 pt
+        var inhalt = ['q 260 0 0 321 25 496 cm /Im1 Do Q',
+                      'q 260 0 0 321 310 496 cm /Im1 Do Q',
+                      'q 260 0 0 321 25 150 cm /Im1 Do Q',
+                      'q 260 0 0 321 310 150 cm /Im1 Do Q'].join('\\n');
+
+        schreib('%PDF-1.4\\n');
+        objekt('1 0 obj <</Type/Catalog/Pages 2 0 R>> endobj\\n');
+        objekt('2 0 obj <</Type/Pages/Kids[3 0 R]/Count 1>> endobj\\n');
+        objekt('3 0 obj <</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]' +
+               '/Resources<</XObject<</Im1 4 0 R>>>>/Contents 5 0 R>> endobj\\n');
+        offsets.push(pos);
+        schreib('4 0 obj <</Type/XObject/Subtype/Image/Width ' + c.width + '/Height ' + c.height +
+                '/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ' + jpeg.length +
+                '>> stream\\n');
+        schreib(jpeg);
+        schreib('\\nendstream endobj\\n');
+        objekt('5 0 obj <</Length ' + inhalt.length + '>> stream\\n' + inhalt + '\\nendstream endobj\\n');
+
+        var xref = pos;
+        var tabelle = 'xref\\n0 6\\n0000000000 65535 f \\n';
+        offsets.forEach(function (o) { tabelle += String(o).padStart(10, '0') + ' 00000 n \\n'; });
+        schreib(tabelle + 'trailer <</Size 6/Root 1 0 R>>\\nstartxref\\n' + xref + '\\n%%EOF');
+
+        var blob = new Blob(teile, { type: 'application/pdf' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'wahlkarten-a4.pdf';
+        document.body.appendChild(a); a.click(); a.remove();
+      });
+    }`;
 
   return new Response(
     `<!doctype html><html lang="de"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Wahlkarten</title><style>${STIL}${STIL_KARTEN}</style></head>
-<body><div class="karte breit">${inhalt}</div></body></html>`,
+<body><div class="karte breit">${inhalt}</div><script>${skript}</script></body></html>`,
     { headers: { ...SICHERHEITSKOEPFE } }
   );
 }
@@ -1194,7 +1337,7 @@ export default {
     }
 
     /* Wahlkarten zum Ausdrucken, nur mit Admin-Cookie */
-    const mk = url.pathname.match(/^\/a\/([a-f0-9]{6,32})\/karten\/?$/);
+    const mk = url.pathname.match(/^\/a\/([a-f0-9]{6,32}|demo)\/karten\/?$/);
     if (mk) {
       const id = mk[1];
       const k = await ruf(env, id, 'karten', { admin: kekse[`k_admin_${id}`] || null });
@@ -1207,6 +1350,31 @@ export default {
         );
       }
       return mitKopf(kartenseite(id, k, url.origin));
+    }
+
+    if (url.pathname === '/llms.txt') {
+      return new Response(`# Konsensomat
+
+> Geheime Abstimmung für kleine Gruppen: alle stimmen blind ab, das Ergebnis erscheint
+> erst, wenn die letzte Stimme abgegeben ist. Einstimmigkeit, einfache Mehrheit oder
+> Zweidrittelmehrheit; optional Einmal-Zugangscodes als druckbare QR-Wahlkarten.
+> Es wird nicht gespeichert, wer wie gestimmt hat. Ein Projekt von ${PROJEKT.name};
+> Betreiber: ${BETREIBER.verantwortlich}, ${BETREIBER.ort}. ${BETREIBER.copyright}, Quellcode unter MIT-Lizenz.
+
+## Seiten
+
+- [Was ist das?](https://${BETREIBER.domain}/info): Idee, Ablauf,
+  Datensparsamkeit, Impressum und Datenschutz
+- [Probe-Abstimmung](https://${BETREIBER.domain}/a/demo): öffentliche Demo,
+  mehrfaches Abstimmen erlaubt
+- [Wahlkarten der Probe](https://${BETREIBER.domain}/a/demo/karten):
+  QR-Karten ansehen, als A4-PDF laden
+
+## Hinweise
+
+- Die Anlege-Seite ist dem Betreiber vorbehalten (Cloudflare Access).
+- Abstimmungen löschen sich 60 Tage nach dem Anlegen selbst.
+`, { headers: { 'Content-Type': 'text/plain;charset=UTF-8' } });
     }
 
     /* Eine Abstimmung */

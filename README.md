@@ -144,6 +144,12 @@ npx wrangler dev --port 8797 --local    # lokal ausprobieren
 npx wrangler deploy                     # veroeffentlicht auf <name>.workers.dev
 ```
 
+Vor dem Veröffentlichen den Block `BETREIBER` am Anfang von `src/worker.js`
+ausfüllen: Name, Anschrift, Telefon, E-Mail, Ort, Copyright-Zeile und die eigene
+Domain. Daraus baut die Anwendung das Impressum und die Datenschutzerklärung auf
+`/info`, die Fußzeilen und `/llms.txt`. In Deutschland ist ein Impressum für
+eine öffentlich erreichbare Seite Pflicht; im Repository stehen nur Platzhalter.
+
 Beim ersten `wrangler deploy` fragt wrangler nach dem Cloudflare-Login und
 legt alles Nötige an; die Abstimmung läuft danach unter der eigenen
 workers.dev-Adresse.
