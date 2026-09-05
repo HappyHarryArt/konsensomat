@@ -626,10 +626,19 @@ function startseite() {
   return html(inhalt, 'Konsensomat', skript);
 }
 
+// Die Idee in 15 Sekunden, bei 600 Wörtern je Minute (Volker, 05.09.2026): was das
+// Produkt ist, nicht was die Seite ist. Keine Abkürzungen, man kann nicht zurückspringen.
 const RSVP_TEXT =
-  'Hier kannst du lesen, wie das geheime Abstimmungssystem funktioniert. ' +
-  'Du musst es aber nicht, wenn du mir vertraust. ' +
-  'Ein Häkchen machen musst du trotzdem.';
+  'Eine Abstimmung im Verein, in der Familie, in der kleinen Runde. ' +
+  'Alle stimmen blind ab. Niemand sieht, was die anderen eingeben. ' +
+  'Das Ergebnis erscheint erst mit der letzten Stimme. ' +
+  'Keine Wortmeldung beeinflusst die nächste. Niemand muss sich vor der Gruppe erklären. ' +
+  'Der Wahlleiter legt Frage, Antworten und Auswertung an: einstimmig, Mehrheit oder Zweidrittel. ' +
+  'Dann verteilt er den Link oder druckt Wahlkarten mit QR-Code, eine je Person, jede gilt genau einmal. ' +
+  'Jede Stimme bekommt eine Quittung. Wer sie am Ende wiederfindet, weiß: gezählt. ' +
+  'Die Quittung verrät nicht, wie jemand gestimmt hat. ' +
+  'Gespeichert wird nie, wer was geantwortet hat. Nach sechzig Tagen löscht sich alles von selbst. ' +
+  'Kurz: Geheim abstimmen. Ergebnis erst am Schluss. Jede Stimme belegt. Der Konsensomat.';
 
 function infoseite(w) {
   const ziel = w && /^([a-f0-9]{6,32}|demo)$/.test(w) ? `/a/${w}` : null;
@@ -733,7 +742,7 @@ function infoseite(w) {
       var pre = document.getElementById('mr-pre'), orp = document.getElementById('mr-orp'),
           post = document.getElementById('mr-post'), balken = document.getElementById('mr-i'),
           feld = document.getElementById('mr');
-      var i = 0, timer = null, laeuft = false, wpm = 550;
+      var i = 0, timer = null, laeuft = false, wpm = 600;
       function orpIx(n) { return n <= 1 ? 0 : n <= 5 ? 1 : n <= 9 ? 2 : 3; }
       function mal() {
         var t = worte[i].w, k = orpIx(t.length);
