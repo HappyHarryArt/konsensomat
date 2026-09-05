@@ -476,7 +476,7 @@ p{margin:0 0 12px;font-size:.95rem;line-height:1.6}
 .don-gruss a{color:var(--ink);word-break:break-all}
 /* Mini-RSVP: eine schmale Zeile, roter ORP-Buchstabe auf fester Spalte */
 .mini-rsvp{background:#ecdcfa;border:1px solid var(--linie);border-radius:14px;
-  padding:12px 10px 8px;margin:0 0 20px;cursor:pointer;user-select:none;
+  padding:12px 10px 8px;margin:18px 0 20px;cursor:pointer;user-select:none;
   -webkit-tap-highlight-color:transparent}
 .mr-wort{display:grid;grid-template-columns:1fr auto 1fr;align-items:baseline;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -643,12 +643,13 @@ const RSVP_TEXT =
 function infoseite(w) {
   const ziel = w && /^([a-f0-9]{6,32}|demo)$/.test(w) ? `/a/${w}` : null;
   const inhalt = `
+    <h1>Konsensomat</h1>
+    <p class="unter">Geheime Abstimmungen für Vereine, Familien und kleine Gruppen.</p>
+    <!-- Lauftext unter dem Seitenkopf, wie auf der Second-Brain-Seite (Volker, 05.09.2026). -->
     <div class="mini-rsvp" id="mr">
       <div class="mr-wort"><span id="mr-pre"></span><span id="mr-orp"></span><span id="mr-post"></span></div>
       <div class="mr-balken"><i id="mr-i"></i></div>
     </div>
-    <h1>Konsensomat</h1>
-    <p class="unter">Geheime Abstimmungen für Vereine, Familien und kleine Gruppen.</p>
     ${ziel ? `<div class="hinweis" style="margin:0 0 18px"><b>Deine Wahlkarte ist aktiviert.</b>
       Lies kurz, wie die Abstimmung funktioniert, dann geht es unten weiter.</div>` : ''}
 
