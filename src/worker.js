@@ -552,12 +552,14 @@ const huelle = (inhalt, titel = 'Konsensomat', skript = '') =>
 
 const SICHERHEITSKOEPFE = {
   'Content-Type': 'text/html;charset=UTF-8',
-  // Kein Inline-Umfeld von fremden Seiten, kein Nachladen von außen.
+  // Kein Nachladen von außen. Einbetten darf nur happyharry.art, dort läuft
+  // der Konsensomat seit dem 07.09.2026 live im Handy-Rahmen der Startseite
+  // (Volker). Kein X-Frame-Options mehr: das kennt keine Freigabe je Herkunft,
+  // frame-ancestors gilt in allen aktuellen Browsern vor.
   'Content-Security-Policy':
-    "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'self' data:; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
+    "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src 'self' data:; form-action 'self'; frame-ancestors 'self' https://happyharry.art https://www.happyharry.art; base-uri 'none'",
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'no-referrer',
-  'X-Frame-Options': 'DENY',
   'Cache-Control': 'no-store',
 };
 
